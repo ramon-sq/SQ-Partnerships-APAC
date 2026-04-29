@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Square Partner Classification Tool</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --white: #ffffff;
+      --yellow: #f5f0a8;
+      --yellow-border: #c8be5a;
+      --yellow-dark: #8a7e00;
+      --gray-100: #f7f7f7;
+      --gray-200: #e8e8e8;
+      --gray-400: #999;
+      --gray-600: #555;
+      --accent: #1a1a1a;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-100);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--black);
+      color: var(--white);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      background: var(--white);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo svg { width: 20px; height: 20px; }
+
+    header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    header span {
+      font-size: 14px;
+      color: #888;
+      margin-left: 4px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--gray-600);
+      margin-bottom: 40px;
+      text-align: center;
+      max-width: 480px;
+    }
+
+    /* Breadcrumb trail */
+    .trail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 32px;
+      min-height: 28px;
+      max-width: 640px;
+      width: 100%;
+    }
+
+    .trail-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
+    .trail-q {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--gray-600);
+      max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .trail-answer {
+      background: var(--black);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .trail-arrow {
+      color: var(--gray-400);
+      font-size: 14px;
+    }
+
+    /* Card */
+    .card-wrapper {
+      width: 100%;
+      max-width: 560px;
+      perspective: 800px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      padding: 40px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideOut {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-12px); }
+    }
+
+    .card.leaving {
+      animation: slideOut 0.2s ease forwards;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 20px;
+    }
+
+    .step-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gray-400);
+    }
+
+    .question-text {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+
+    .question-text strong { color: var(--black); }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .choice-btn {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      cursor: pointer;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .choice-btn:hover {
+      border-color: var(--black);
+      background: var(--gray-100);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .choice-btn .label { font-size: 13px; font-weight: 600; }
+    .choice-btn.yes .label { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 4px; }
+    .choice-btn.no .label  { background: #fce4ec; color: #c62828; padding: 2px 8px; border-radius: 4px; }
+    .choice-btn.custom .label { background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 4px; }
+
+    .choice-arrow { color: var(--gray-400); font-size: 18px; flex-shrink: 0; }
+
+    /* Progress bar */
+    .progress-bar {
+      width: 100%;
+      max-width: 560px;
+      height: 3px;
+      background: var(--gray-200);
+      border-radius: 2px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--black);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* Result card */
+    .result-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 2px solid var(--yellow-border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      padding: 40px;
+      max-width: 560px;
+      width: 100%;
+      animation: slideIn 0.35s ease;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .result-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--yellow);
+      border: 2px solid var(--yellow-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .result-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--yellow-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      line-height: 1.2;
+    }
+
+    .result-divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 24px 0;
+    }
+
+    .result-description {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--gray-600);
+      margin-bottom: 20px;
+    }
+
+    .result-traits {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .trait {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--black);
+    }
+
+    .trait-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--yellow-border);
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-restart {
+      padding: 12px 24px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-restart:hover {
+      background: #333;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .btn-back {
+      padding: 12px 24px;
+      background: transparent;
+      color: var(--gray-600);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-back:hover {
+      border-color: var(--black);
+      color: var(--black);
+    }
+
+    /* Back button on questions */
+    .card-footer {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    /* Start screen */
+    .start-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      padding: 48px 40px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    .start-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--black);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .start-icon svg { width: 32px; height: 32px; }
+
+    .start-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .start-card p {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .outcome-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .pill {
+      background: var(--yellow);
+      border: 1px solid var(--yellow-border);
+      color: var(--yellow-dark);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .btn-start {
+      padding: 14px 32px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-start:hover {
+      background: #333;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 32px 16px 60px; }
+      .card, .result-card, .start-card { padding: 28px 24px; }
+      .question-text { font-size: 18px; }
+      .result-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="18" height="18" rx="3" fill="#1a1a1a"/>
+      <rect x="7" y="7" width="10" height="10" rx="1.5" fill="white"/>
+    </svg>
+  </div>
+  <h1>Square Partnerships <span>/ Partner Classification Tool</span></h1>
+</header>
+
+<main>
+  <div id="app"></div>
+</main>
+
+<footer>Square APAC Partnerships · Internal Use Only</footer>
+
+<script>
+  // ─── Decision Tree ───────────────────────────────────────────────────────────
+
+  const TREE = {
+    q1: {
+      id: 'q1',
+      step: 'Question 1 of 4',
+      progress: 0,
+      text: 'Is the target capability(ies) of provider <strong>duplicative</strong> with Square\'s 1P capabilities?',
+      choices: [
+        { label: 'Yes', style: 'yes', next: 'q2' },
+        { label: 'No',  style: 'no',  next: 'r_product' },
+      ]
+    },
+    q2: {
+      id: 'q2',
+      step: 'Question 2 of 4',
+      progress: 25,
+      text: 'At what point relative to <strong>merchant commencement of Square signup flow</strong> is control relinquished over the merchant experience?',
+      choices: [
+        { label: 'Any time up until', style: 'custom', sublabel: 'Before / during signup', next: 'q3' },
+        { label: 'Any time after',    style: 'custom', sublabel: 'After signup is complete', next: 'r_channel' },
+      ]
+    },
+    q3: {
+      id: 'q3',
+      step: 'Question 3 of 4',
+      progress: 50,
+      text: 'Does the provider <strong>integrate</strong> to any Square products?',
+      choices: [
+        { label: 'Yes', style: 'yes', next: 'q4' },
+        { label: 'No',  style: 'no',  next: 'q4b' },
+      ]
+    },
+    q4: {
+      id: 'q4',
+      step: 'Question 4 of 4',
+      progress: 75,
+      text: 'Will the prevailing integration(s) with Square products be <strong>novel</strong> and/or have an <strong>outsized profile</strong> in the territory?',
+      choices: [
+        { label: 'Yes', style: 'yes', next: 'r_growth' },
+        { label: 'No',  style: 'no',  next: 'r_platform' },
+      ]
+    },
+    q4b: {
+      id: 'q4b',
+      step: 'Question 4 of 4',
+      progress: 75,
+      text: 'Does the provider <strong>re-sell Square hardware</strong>?',
+      choices: [
+        { label: 'Yes', style: 'yes', next: 'r_retail' },
+        { label: 'No',  style: 'no',  next: 'r_referral' },
+      ]
+    },
+  };
+
+  const RESULTS = {
+    r_product: {
+      icon: '🔧',
+      type: 'Product Partnership',
+      description: 'The provider\'s capabilities are non-duplicative with Square\'s own product offering, meaning they bring something genuinely complementary to the Square ecosystem.',
+      traits: [
+        'Provider fills a capability gap Square doesn\'t natively offer',
+        'Deep product-level collaboration and integration',
+        'Jointly enhances the overall merchant value proposition',
+        'Example: a specialised vertical software that extends Square\'s core POS',
+      ]
+    },
+    r_channel: {
+      icon: '📢',
+      type: 'Channel / Reseller Partnership',
+      description: 'The provider takes control of the merchant experience after Square\'s signup flow has commenced, acting as a distribution channel or reseller to market.',
+      traits: [
+        'Provider manages the merchant relationship post-onboarding',
+        'Focused on distribution and market reach',
+        'Partner leads merchant acquisition and onboarding handoff',
+        'Example: a telco or bank bundling Square as part of their SMB offering',
+      ]
+    },
+    r_growth: {
+      icon: '📈',
+      type: 'Growth Partnership',
+      description: 'The provider integrates with Square products in a way that is genuinely novel or carries significant market weight in the territory, driving outsized growth impact.',
+      traits: [
+        'Integration is first-of-kind or category-defining in territory',
+        'Outsized brand profile amplifies Square\'s market presence',
+        'Strategic co-investment and joint go-to-market warranted',
+        'Example: a major platform like Uber Eats with deep POS integration',
+      ]
+    },
+    r_platform: {
+      icon: '🔗',
+      type: 'Platform Partnership',
+      description: 'The provider integrates with Square products but the integration is more standard — valuable but not uniquely novel or dominant in the territory.',
+      traits: [
+        'Technical integration with Square APIs or products',
+        'Incremental value-add to merchants using both platforms',
+        'Standard partnership terms and listing in the App Marketplace',
+        'Example: a bookkeeping or scheduling app connecting via Square API',
+      ]
+    },
+    r_retail: {
+      icon: '🛒',
+      type: 'Retail Partnership',
+      description: 'The provider re-sells Square hardware, distributing physical Square terminals and devices through their retail or distribution network.',
+      traits: [
+        'Physical distribution of Square hardware (terminals, readers)',
+        'May include bundling with the provider\'s own service offering',
+        'Drives hardware reach beyond Square\'s direct sales channels',
+        'Example: a retail chain stocking Square hardware in-store',
+      ]
+    },
+    r_referral: {
+      icon: '🤝',
+      type: 'Referral Only Partnership',
+      description: 'The provider refers merchants to Square without integrating with Square products or re-selling hardware — a lightweight, lead-based partnership.',
+      traits: [
+        'No technical integration required',
+        'Partner earns referral fees on successful merchant sign-ups',
+        'Low operational overhead; simple commercial model',
+        'Example: an accountant or broker recommending Square to their clients',
+      ]
+    },
+  };
+
+  // ─── State ───────────────────────────────────────────────────────────────────
+
+  let history = []; // [{ nodeId, choiceLabel }]
+  let currentNode = null; // null = start screen
+
+  // ─── Render ──────────────────────────────────────────────────────────────────
+
+  function render() {
+    const app = document.getElementById('app');
+
+    if (currentNode === null) {
+      app.innerHTML = renderStart();
+    } else if (currentNode.startsWith('r_')) {
+      app.innerHTML = renderTrail() + renderResult(RESULTS[currentNode]);
+    } else {
+      const node = TREE[currentNode];
+      app.innerHTML = renderProgressBar(node.progress) + renderTrail() + renderQuestion(node);
+    }
+  }
+
+  function renderStart() {
+    return `
+      <div class="start-card">
+        <div class="start-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 4L28 10V22L16 28L4 22V10L16 4Z" stroke="white" stroke-width="2" fill="none"/>
+            <circle cx="16" cy="16" r="4" fill="white"/>
+          </svg>
+        </div>
+        <h2>Partner Classification Tool</h2>
+        <p>Answer a few questions to determine the right partnership type for a prospective Square partner. Takes under a minute.</p>
+        <div class="outcome-pills">
+          <span class="pill">Product</span>
+          <span class="pill">Channel / Reseller</span>
+          <span class="pill">Growth</span>
+          <span class="pill">Platform</span>
+          <span class="pill">Retail</span>
+          <span class="pill">Referral Only</span>
+        </div>
+        <button class="btn-start" onclick="startFlow()">Start classification →</button>
+      </div>
+    `;
+  }
+
+  function renderProgressBar(progress) {
+    return `
+      <div class="progress-bar" style="max-width:560px;width:100%">
+        <div class="progress-fill" style="width:${progress}%"></div>
+      </div>
+    `;
+  }
+
+  function renderTrail() {
+    if (history.length === 0) return '<div class="trail"></div>';
+
+    const items = history.map((h, i) => {
+      const node = TREE[h.nodeId];
+      const shortQ = node ? node.text.replace(/<[^>]+>/g, '').slice(0, 40) + '…' : '';
+      const isLast = i === history.length - 1;
+      return `
+        <div class="trail-item">
+          <span class="trail-q" title="${node ? node.text.replace(/<[^>]+>/g, '') : ''}">${shortQ}</span>
+          <span class="trail-answer">${h.choiceLabel}</span>
+          ${!isLast ? '<span class="trail-arrow">›</span>' : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `<div class="trail">${items}</div>`;
+  }
+
+  function renderQuestion(node) {
+    const choices = node.choices.map(c => `
+      <button class="choice-btn ${c.style}" onclick="choose('${c.next}', '${escHtml(c.label)}')">
+        <div>
+          <div class="label">${c.label}</div>
+          ${c.sublabel ? `<div style="font-size:13px;color:#777;margin-top:3px;font-weight:400">${c.sublabel}</div>` : ''}
+        </div>
+        <span class="choice-arrow">→</span>
+      </button>
+    `).join('');
+
+    const backBtn = history.length > 0
+      ? `<div class="card-footer"><button class="btn-back" onclick="goBack()">← Back</button></div>`
+      : '';
+
+    return `
+      <div class="card-wrapper">
+        <div class="card" id="current-card">
+          <div class="step-badge"><span class="dot"></span>${node.step}</div>
+          <div class="question-text">${node.text}</div>
+          <div class="choices">${choices}</div>
+          ${backBtn}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderResult(result) {
+    const traits = result.traits.map(t => `
+      <div class="trait"><div class="trait-dot"></div><span>${t}</span></div>
+    `).join('');
+
+    return `
+      <div class="result-card">
+        <div class="result-header">
+          <div class="result-icon">${result.icon}</div>
+          <div>
+            <div class="result-label">Classification Result</div>
+            <div class="result-title">${result.type}</div>
+          </div>
+        </div>
+        <div class="result-description">${result.description}</div>
+        <div class="result-divider"></div>
+        <div class="result-traits">${traits}</div>
+        <div class="result-actions">
+          <button class="btn-restart" onclick="restart()">↺ Start over</button>
+          <button class="btn-back" onclick="goBack()">← Revise last answer</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function escHtml(str) {
+    return str.replace(/'/g, "\\'");
+  }
+
+  // ─── Actions ─────────────────────────────────────────────────────────────────
+
+  function startFlow() {
+    history = [];
+    currentNode = 'q1';
+    render();
+  }
+
+  function choose(nextNode, choiceLabel) {
+    // Animate out
+    const card = document.getElementById('current-card');
+    if (card) {
+      card.classList.add('leaving');
+      setTimeout(() => {
+        history.push({ nodeId: currentNode, choiceLabel });
+        currentNode = nextNode;
+        render();
+      }, 180);
+    } else {
+      history.push({ nodeId: currentNode, choiceLabel });
+      currentNode = nextNode;
+      render();
+    }
+  }
+
+  function goBack() {
+    if (history.length === 0) {
+      currentNode = null;
+    } else {
+      const prev = history.pop();
+      currentNode = prev.nodeId;
+    }
+    render();
+  }
+
+  function restart() {
+    history = [];
+    currentNode = null;
+    render();
+  }
+
+  // ─── Init ────────────────────────────────────────────────────────────────────
+  render();
+</script>
+
+</body>
+</html>

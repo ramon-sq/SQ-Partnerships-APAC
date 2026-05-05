@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ Partnerships APAC Offsite 2026 — Pre-Survey</title>
+<style>
+  /* ── Square Brand Design System ── */
+  :root {
+    --sq-black:      #000000;
+    --sq-white:      #ffffff;
+    --sq-gray-100:   #f6f6f6;
+    --sq-gray-200:   #ebebeb;
+    --sq-gray-400:   #c1c1c1;
+    --sq-gray-600:   #767676;
+    --sq-gray-800:   #3d3d3d;
+    --sq-green:      #00a854;   /* Square brand green */
+    --sq-red:        #cc0023;
+    --sq-focus:      #000000;
+    --sq-radius:     4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--sq-gray-100);
+    min-height: 100vh;
+    padding: 0 0 64px 0;
+    color: var(--sq-black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Top Navigation Bar (Square style) ── */
+  #lang-bar {
+    background: var(--sq-black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 12px;
+  }
+
+  /* Square logomark */
+  #lang-bar .sq-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  #lang-bar .sq-logo svg { display: block; }
+  #lang-bar .sq-logo-text {
+    color: var(--sq-white);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  /* Language toggle */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #lang-bar .lang-label {
+    color: var(--sq-gray-400);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-right: 2px;
+  }
+  .lang-btn {
+    border: 1px solid var(--sq-gray-600);
+    border-radius: var(--sq-radius);
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+    color: var(--sq-gray-400);
+    letter-spacing: 0.04em;
+    font-family: inherit;
+  }
+  .lang-btn.active {
+    background: var(--sq-white);
+    border-color: var(--sq-white);
+    color: var(--sq-black);
+  }
+  .lang-btn:hover:not(.active) {
+    border-color: var(--sq-white);
+    color: var(--sq-white);
+  }
+
+  /* ── Page Layout ── */
+  .form-container {
+    max-width: 664px;
+    margin: 0 auto;
+    padding: 32px 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── Header Card ── */
+  .header-card {
+    background: var(--sq-white);
+    border-radius: var(--sq-radius);
+    overflow: hidden;
+    border: 1px solid var(--sq-gray-200);
+  }
+
+  /* Black header band with Square mark */
+  .header-band {
+    background: var(--sq-black);
+    padding: 20px 28px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-band-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--sq-white);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-band-title {
+    color: var(--sq-white);
+  }
+  .header-band-title .event-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sq-gray-400);
+    margin-bottom: 3px;
+  }
+  .header-band-title .event-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--sq-white);
+    line-height: 1.3;
+  }
+
+  .header-body { padding: 24px 28px 22px; }
+  .header-card h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--sq-black);
+    line-height: 1.25;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header-card .subtitle {
+    font-size: 13px;
+    color: var(--sq-gray-600);
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+  }
+  .header-card p {
+    font-size: 14px;
+    color: var(--sq-gray-800);
+    line-height: 1.65;
+    margin-top: 10px;
+  }
+  .header-card .required-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--sq-red);
+    font-weight: 500;
+  }
+
+  /* ── Section Dividers ── */
+  .section-header {
+    background: var(--sq-black);
+    border-radius: var(--sq-radius);
+    padding: 14px 24px;
+    margin-top: 8px;
+  }
+  .section-header h2 {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sq-white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+  .section-header p {
+    font-size: 13px;
+    color: var(--sq-gray-400);
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+
+  /* ── Question Cards ── */
+  .question-card {
+    background: var(--sq-white);
+    border-radius: var(--sq-radius);
+    padding: 22px 28px 24px;
+    border: 1px solid var(--sq-gray-200);
+    transition: border-color 0.15s;
+  }
+  .question-card:focus-within {
+    border-color: var(--sq-black);
+  }
+  .question-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sq-black);
+    margin-bottom: 16px;
+    line-height: 1.5;
+    display: block;
+    letter-spacing: -0.01em;
+  }
+  .question-label .req { color: var(--sq-red); margin-left: 2px; }
+
+  /* Inputs */
+  .text-input, .textarea-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--sq-gray-400);
+    padding: 7px 0;
+    font-size: 14px;
+    color: var(--sq-black);
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.15s;
+  }
+  .text-input:focus, .textarea-input:focus {
+    border-bottom: 2px solid var(--sq-black);
+  }
+  .text-input::placeholder, .textarea-input::placeholder {
+    color: var(--sq-gray-400);
+  }
+  .textarea-input { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+  .select-input {
+    width: 100%;
+    border: 1px solid var(--sq-gray-400);
+    border-radius: var(--sq-radius);
+    padding: 9px 32px 9px 12px;
+    background: var(--sq-white);
+    cursor: pointer;
+    appearance: none;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--sq-black);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23000000'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.15s;
+  }
+  .select-input:focus { border-color: var(--sq-black); outline: none; }
+
+  /* Radio / Checkbox */
+  .options-group { display: flex; flex-direction: column; gap: 0; }
+  .option-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--sq-black);
+    line-height: 1.5;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--sq-gray-200);
+    transition: background 0.1s;
+  }
+  .option-row:last-child { border-bottom: none; }
+  .option-row:hover { background: var(--sq-gray-100); margin: 0 -4px; padding-left: 4px; padding-right: 4px; border-radius: 2px; }
+  .option-row input[type="radio"],
+  .option-row input[type="checkbox"] {
+    accent-color: var(--sq-black);
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .option-label { flex: 1; }
+
+  /* Other / inline free text */
+  .other-input {
+    border: none;
+    border-bottom: 1px solid var(--sq-gray-400);
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--sq-black);
+    background: transparent;
+    width: 100%;
+    margin-top: 4px;
+    padding: 2px 0;
+  }
+  .other-input:focus { border-bottom: 2px solid var(--sq-black); }
+
+  .rank-note { font-size: 12px; color: var(--sq-gray-600); margin-bottom: 14px; }
+
+  /* ── Submit Area ── */
+  .submit-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 4px;
+  }
+  .submit-btn {
+    background: var(--sq-black);
+    color: var(--sq-white);
+    border: 2px solid var(--sq-black);
+    border-radius: var(--sq-radius);
+    padding: 11px 32px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    transition: background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .submit-btn:hover:not(:disabled) {
+    background: var(--sq-gray-800);
+    border-color: var(--sq-gray-800);
+  }
+  .submit-btn:disabled {
+    background: var(--sq-gray-400);
+    border-color: var(--sq-gray-400);
+    cursor: not-allowed;
+  }
+  .clear-btn {
+    background: transparent;
+    border: none;
+    color: var(--sq-gray-600);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: underline;
+    padding: 4px 0;
+    transition: color 0.15s;
+  }
+  .clear-btn:hover { color: var(--sq-black); }
+
+  /* Spinner */
+  .spinner {
+    display: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.65s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Banners */
+  .banner {
+    display: none;
+    border-radius: var(--sq-radius);
+    padding: 20px 28px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+  }
+  #confirm-banner {
+    background: var(--sq-black);
+    color: var(--sq-white);
+    border: none;
+  }
+  #error-banner {
+    background: #fff0f2;
+    border: 1px solid var(--sq-red);
+    color: var(--sq-red);
+  }
+
+  /* Setup notice */
+  .setup-notice {
+    background: #fffbf0;
+    border: 1px solid #e6a817;
+    border-radius: var(--sq-radius);
+    padding: 13px 18px;
+    font-size: 13px;
+    color: #5a3e00;
+    line-height: 1.6;
+    display: none;
+  }
+  .setup-notice strong { color: #b85c00; }
+  .setup-notice code {
+    background: #fef0cc;
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 12px;
+  }
+
+  /* Submit card bg */
+  .submit-card-bg { background: var(--sq-gray-100) !important; border-color: var(--sq-gray-200) !important; }
+
+  /* Footer */
+  .form-footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--sq-gray-600);
+    padding-top: 10px;
+    letter-spacing: 0.01em;
+  }
+  .form-footer a { color: var(--sq-black); }
+
+  /* ── Language visibility ── */
+  .en, .ja { display: none; }
+  body.lang-en .en { display: initial; }
+  body.lang-en .en.block-el { display: block; }
+  body.lang-ja .ja { display: initial; }
+  body.lang-ja .ja.block-el { display: block; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header-body, .question-card { padding-left: 18px; padding-right: 18px; }
+    .header-band { padding-left: 18px; padding-right: 18px; }
+    .section-header { padding-left: 18px; padding-right: 18px; }
+    .header-card h1 { font-size: 20px; }
+    .form-container { padding: 20px 10px 0; }
+    #lang-bar { padding: 0 16px; }
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- ══ LANGUAGE BAR ══ -->
+<div id="lang-bar">
+  <a class="sq-logo" href="#" onclick="return false;" aria-label="Square">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="26" height="26" rx="4" fill="white"/>
+      <rect x="6" y="6" width="14" height="14" rx="2" fill="black"/>
+    </svg>
+    <span class="sq-logo-text">Square Partnerships APAC</span>
+  </a>
+  <div class="lang-toggle">
+    <span class="lang-label en">Language:</span>
+    <span class="lang-label ja">言語:</span>
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">English</button>
+    <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
+  </div>
+</div>
+
+<div class="form-container">
+
+  <!-- Setup notice (visible only if URL not configured) -->
+  <div class="setup-notice" id="setup-notice">
+    ⚠️ <strong>One-time setup needed:</strong> To save responses to Google Sheets, follow the
+    instructions in <em>"APAC Offsite 2026 — Survey Setup Instructions"</em> in your Drive,
+    then replace <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> in this file with your deployed
+    Apps Script URL. Until then, submissions will not be saved.
+  </div>
+
+  <!-- ── HEADER ── -->
+  <div class="header-card">
+    <div class="header-band">
+      <div class="header-band-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="14" height="14" rx="2" fill="black"/>
+        </svg>
+      </div>
+      <div class="header-band-title">
+        <div class="event-label">Square Partnerships APAC</div>
+        <div class="event-name">24–26 June 2026 · Melbourne</div>
+      </div>
+    </div>
+    <div class="header-body">
+      <h1 class="en">APAC Partnerships Offsite 2026 — Pre-Event Survey</h1>
+      <h1 class="ja">APACパートナーシップオフサイト2026年 — 事前アンケート</h1>
+      <p class="en">
+        Thank you for taking a few minutes to complete this survey ahead of our APAC Partnerships
+        Offsite on 24–26 June 2026 in Melbourne. Your input will directly shape the agenda, the
+        guest list, and the team activity we choose together. Please respond by
+        <strong>Friday 22 May 2026</strong>.
+      </p>
+      <p class="ja">
+        2026年6月24日〜26日にメルボルンで開催するAPACパートナーシップオフサイトに先立ち、このアンケートにご回答いただきありがとうございます。
+        皆さまのご意見はアジェンダ・招待者リスト・チームビルディングアクティビティに直接反映されます。
+        <strong>2026年5月22日（金）まで</strong>にご回答ください。
+      </p>
+      <p class="required-note en">* Required</p>
+      <p class="required-note ja">* 必須項目</p>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 1: ABOUT YOU ════════════ -->
+  <div class="section-header">
+    <h2 class="en">Section 1 — About You</h2>
+    <h2 class="ja">セクション1 — あなたについて</h2>
+  </div>
+
+  <!-- Q1 Name -->
+  <div class="question-card">
+    <label class="question-label en" for="q-name">Your full name <span class="req">*</span></label>
+    <label class="question-label ja" for="q-name">氏名（フルネーム）<span class="req">*</span></label>
+    <input class="text-input" id="q-name" name="full_name" type="text" placeholder="e.g. Ryuta Aizawa" required>
+  </div>
+
+  <!-- Q2 Region -->
+  <div class="question-card">
+    <label class="question-label en" for="q-region">Which team / region are you part of? <span class="req">*</span></label>
+    <label class="question-label ja" for="q-region">あなたが所属するチーム・地域はどちらですか？<span class="req">*</span></label>
+    <select class="select-input" id="q-region" name="region" required>
+      <option value="" disabled selected>— Select / 選択 —</option>
+      <option value="au">Australia (AU)</option>
+      <option value="jp">Japan (JP)</option>
+    </select>
+  </div>
+
+
+<!-- ════════════ SECTION 2: SESSION TOPICS ════════════ -->
+  <div class="section-header">
+    <h2 class="en">Section 2 — Session Topics</h2>
+    <h2 class="ja">セクション2 — セッションテーマ</h2>
+    <p class="en">Help us build an agenda that is valuable for everyone in the room.</p>
+    <p class="ja">全員にとって価値あるアジェンダ作りにご協力ください。</p>
+  </div>
+
+  <!-- Q4 Must-cover topics -->
+  <div class="question-card">
+    <span class="question-label en">
+      Which topics are <strong>must-cover</strong> for you at this offsite? <span class="req">*</span><br>
+      <small style="font-weight:400;color:#5f6368;">Select all that apply.</small>
+    </span>
+    <span class="question-label ja">
+      このオフサイトで<strong>必ず取り上げてほしい</strong>トピックを選んでください。<span class="req">*</span><br>
+      <small style="font-weight:400;color:#5f6368;">該当するものをすべて選択してください。</small>
+    </span>
+    <div class="options-group">
+      <label class="option-row"><input type="checkbox" name="topics" value="apac_strategy">
+        <span class="option-label"><span class="en">APAC Partnership Strategy — AU &amp; JP H2 2026 priorities and regional alignment</span><span class="ja">APACパートナーシップ戦略 — AU・JP 2026年下半期の優先事項と地域連携</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="jp_strategy">
+        <span class="option-label"><span class="en">Japan Deep Dive</span><span class="ja">日本の詳細検討</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="3pso">
+        <span class="option-label"><span class="en">3PSO / Third-Party Sales Org Strategy — future of J2, Pointer, and JP 3PSO program</span><span class="ja">3PSO戦略 — J2・Pointer・日本3PSOプログラムの今後</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="partner_integrations">
+        <span class="option-label"><span class="en">Partner Integration &amp; Product Roadmap — Linkly, MPSDK, API GPV, PSDK partners</span><span class="ja">パートナー統合・プロダクトロードマップ — Linkly、MPSDK、API GPV、PSDKパートナー</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="kpi_performance">
+        <span class="option-label"><span class="en">KPI Framework &amp; Performance Review — NVA, GPB, SAL targets; input vs. output metrics</span><span class="ja">KPIフレームワーク・パフォーマンスレビュー — NVA、GPB、SAL目標；インプット/アウトプット指標</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="xregion_collab">
+        <span class="option-label"><span class="en">Cross-Regional Collaboration — sharing best practices between AU and JP teams</span><span class="ja">地域間コラボレーション — AUとJPチーム間のベストプラクティス共有</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="gtm_playbook">
+        <span class="option-label"><span class="en">Go-to-Market Playbook — partner activation, co-marketing, reseller/referral frameworks</span><span class="ja">GTMプレイブック — パートナー活性化、共同マーケティング、リセラー/リファーラルの枠組み</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="new_verticals">
+        <span class="option-label"><span class="en">New Verticals &amp; Emerging Opportunities — Uber Eats AU, new APAC partners</span><span class="ja">新分野・新興機会 — Uber Eats AU、新APACパートナー</span></span></label>
+      <label class="option-row"><input type="checkbox" name="topics" value="leadership_dev">
+        <span class="option-label"><span class="en">Leadership &amp; Team Development — coaching, career growth, ways of working as an APAC unit</span><span class="ja">リーダーシップ・チーム開発 — コーチング、キャリア成長、APACユニットとしての働き方</span></span></label>
+      <label class="option-row">
+        <input type="checkbox" name="topics" value="other" id="topic-other-cb" onchange="toggleOther('topic-other-text',this)">
+        <span class="option-label">
+          <span class="en">Other (please specify)</span><span class="ja">その他（具体的に記入してください）</span>
+          <input class="other-input" id="topic-other-text" type="text" disabled placeholder="Type here…" style="display:none">
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Q5 Top 3 priority ranking -->
+  <div class="question-card">
+    <span class="question-label en">Of the topics above, which <strong>three</strong> deserve the most dedicated discussion time? <span class="req">*</span></span>
+    <span class="question-label ja">上記トピックのうち、特に<strong>3つ</strong>を優先的に議論すべきと思うものはどれですか？<span class="req">*</span></span>
+    <p class="rank-note en">List in priority order (1 = most important).</p>
+    <p class="rank-note ja">優先度順にご記入ください（1＝最重要）。</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:600;color:#7248b9;min-width:20px;">1.</span><select class="select-input" name="top_topic_1" id="top_topic_1" style="flex:1"></select></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:600;color:#7248b9;min-width:20px;">2.</span><select class="select-input" name="top_topic_2" id="top_topic_2" style="flex:1"></select></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:600;color:#7248b9;min-width:20px;">3.</span><select class="select-input" name="top_topic_3" id="top_topic_3" style="flex:1"></select></div>
+    </div>
+  </div>
+
+
+  <!-- Q7 Topics free text -->
+  <div class="question-card">
+    <label class="question-label en" for="q-topic-freetext">Any other topics, questions, or agenda suggestions?</label>
+    <label class="question-label ja" for="q-topic-freetext">その他、取り上げてほしいトピック、質問、アジェンダ提案はありますか？</label>
+    <textarea class="textarea-input" id="q-topic-freetext" name="topic_freetext" placeholder="Share anything you'd like the team to discuss…"></textarea>
+  </div>
+
+  <!-- ════════════ SECTION 3: REQUESTED ATTENDEES ════════════ -->
+  <div class="section-header">
+    <h2 class="en">Section 3 — Requested Attendees</h2>
+    <h2 class="ja">セクション3 — 招待希望者</h2>
+    <p class="en">We can invite Melbourne-based and AU-based leaders to join specific sessions where their input adds the most value.</p>
+    <p class="ja">メルボルン・AU拠点のリーダーを特定のセッションにご招待できます。最も価値を発揮できる方をご推薦ください。</p>
+  </div>
+
+  <!-- Q8 Melbourne-based leaders -->
+  <div class="question-card">
+    <span class="question-label en">Which Melbourne-based / AU-based leaders would you recommend inviting (all or part of the offsite)? <span class="req">*</span><br><small style="font-weight:400;color:#5f6368;">Select all that apply.</small></span>
+    <span class="question-label ja">オフサイトの全部または一部に招待するメルボルン/AU拠点リーダーは誰ですか？<span class="req">*</span><br><small style="font-weight:400;color:#5f6368;">該当するものをすべて選択してください。</small></span>
+    <div class="options-group">
+      <label class="option-row"><input type="checkbox" name="attendees" value="marco"><span class="option-label"><span class="en">Marco Lamantia — Executive Manager, APAC</span><span class="ja">Marco Lamantia — APACエグゼクティブマネージャー</span></span></label>
+      <label class="option-row"><input type="checkbox" name="attendees" value="dylan"><span class="option-label"><span class="en">Dylan Pike — Field Sales Lead, AU (3PSO program originator; pipeline &amp; lead routing)</span><span class="ja">Dylan Pike — AUフィールドセールスリード（3PSOプログラム発案者；パイプライン・リードルーティング）</span></span></label>
+      <label class="option-row"><input type="checkbox" name="attendees" value="william"><span class="option-label"><span class="en">William Zhou — F&amp;S Lead, APAC</span><span class="ja">William Zhou — APAC F&amp;Sリード</span></span></label>
+      <label class="option-row"><input type="checkbox" name="attendees" value="lynne"><span class="option-label"><span class="en">Lynne Lagan — Commercial / Risk Lead</span><span class="ja">Lynne Lagan — 商務・リスクリード</span></span></label>
+      <label class="option-row"><input type="checkbox" name="attendees" value="stacey"><span class="option-label"><span class="en">Stacey Lowther — Marketing</span><span class="ja">Stacey Lowther — マーケティング</span></span></label>
+      <label class="option-row"><input type="checkbox" name="attendees" value="courtney"><span class="option-label"><span class="en">Courtney Goes — AU GTM Programs</span><span class="ja">Courtney Goes — AU GTMプログラム</span></span></label>
+      <label class="option-row"><input type="checkbox" name="attendees" value="josh"><span class="option-label"><span class="en">Josh Holmes — Square Products Legal (partner contracts &amp; regulatory)</span><span class="ja">Josh Holmes — Squareプロダクト法務（パートナー契約・規制）</span></span></label>
+      <label class="option-row">
+        <input type="checkbox" name="attendees" value="other" id="attendee-other-cb" onchange="toggleOther('attendee-other-text',this)">
+        <span class="option-label">
+          <span class="en">Someone else (please specify name, role, and session)</span><span class="ja">その他（氏名、役職、参加セッションを記入してください）</span>
+          <input class="other-input" id="attendee-other-text" type="text" disabled placeholder="Name, Role — and which topic/session they should join" style="display:none">
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Q9 Japan attendees -->
+  <div class="question-card">
+    <label class="question-label en" for="q-jp-attendees">Are there Japan-based leaders you'd recommend joining virtually or in person for specific sessions?</label>
+    <label class="question-label ja" for="q-jp-attendees">特定のセッションに対面またはオンラインで参加することを推奨する日本拠点のリーダーはいますか？</label>
+    <textarea class="textarea-input" id="q-jp-attendees" name="jp_attendees" placeholder="Name, role, and which session(s) they should join…"></textarea>
+  </div>
+
+  <!-- Q10 Attendee rationale -->
+  <div class="question-card">
+    <label class="question-label en" for="q-rationale">For your top requested attendee, briefly explain <em>why</em> their presence adds value.</label>
+    <label class="question-label ja" for="q-rationale">最も招待を希望する方について、<em>なぜ</em>その方の参加が価値をもたらすかを簡単にご説明ください。</label>
+    <textarea class="textarea-input" id="q-rationale" name="attendee_rationale" placeholder="e.g. 'Dylan's presence on Day 1 would help resolve the 3PSO ownership question with the right decision-makers in the room.'"></textarea>
+  </div>
+
+  <!-- ════════════ SECTION 4: TEAM BUILDING ════════════ -->
+  <div class="section-header">
+    <h2 class="en">Section 4 — Team Building Activity (Melbourne CBD)</h2>
+    <h2 class="ja">セクション4 — チームビルディングアクティビティ（メルボルンCBD）</h2>
+    <p class="en">All options are set in Melbourne's CBD and suitable for a mixed AU + JP group of ~10–15 people.</p>
+    <p class="ja">すべてのオプションはメルボルンCBD内で実施でき、AU・JP混合の10〜15名程度に適しています。</p>
+  </div>
+
+  <!-- Q11 Activity preference (max 3) -->
+  <div class="question-card">
+    <span class="question-label en">Which team activities appeal to you most? <span class="req">*</span><br><small style="font-weight:400;color:#5f6368;">Select up to 3.</small></span>
+    <span class="question-label ja">最も興味があるチームアクティビティを選んでください。<span class="req">*</span><br><small style="font-weight:400;color:#5f6368;">最大3つ選択してください。</small></span>
+    <div class="options-group">
+      <label class="option-row"><input type="checkbox" name="activity" value="food_tour"><span class="option-label"><span class="en">🍜 Melbourne Laneways Food &amp; Culture Tour — guided walk through the CBD's iconic laneways and food spots</span><span class="ja">🍜 メルボルン路地裏フード＆カルチャーツアー — CBDの名所路地と食のスポットをめぐるガイド付きウォーキングツアー</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="cooking_class"><span class="option-label"><span class="en">👨‍🍳 Group Cooking Class — collaborative hands-on experience (modern Australian or Asian fusion)</span><span class="ja">👨‍🍳 グループ料理教室 — 共同で行う実践的な料理体験（モダンオーストラリア料理またはアジアンフュージョン）</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="escape_room"><span class="option-label"><span class="en">🔐 Escape Room — team problem-solving challenge (multiple CBD venues available)</span><span class="ja">🔐 エスケープルーム — チームでの謎解きチャレンジ（CBD内に複数会場あり）</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="yarra_cruise"><span class="option-label"><span class="en">⛵ Yarra River Boat Cruise — private charter with drinks and canapes</span><span class="ja">⛵ ヤラ川クルーズ — ドリンクとカナッペ付きのプライベートチャーター</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="cocktail_class"><span class="option-label"><span class="en">🍸 Cocktail Making Class — mixology session at a CBD bar with a team competition element</span><span class="ja">🍸 カクテル作り教室 — CBD内のバーでチーム対抗のミクソロジーセッション</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="ngv_experience"><span class="option-label"><span class="en">🎨 NGV Private Experience — guided tour or creative workshop at one of Asia-Pacific's largest art museums</span><span class="ja">🎨 ビクトリア国立美術館（NGV）プライベート体験 — アジア太平洋最大級の美術館でのガイドツアーまたはワークショップ</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="trivia_night"><span class="option-label"><span class="en">🧠 Rooftop Trivia Night — hosted team trivia at a CBD rooftop (APAC partnerships theme optional!)</span><span class="ja">🧠 ルーフトップトリビアナイト — CBDのルーフトップ会場でのチームクイズ（APACテーマも可！）</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="axe_throwing"><span class="option-label"><span class="en">🪓 Axe Throwing — competitive and energetic team session</span><span class="ja">🪓 アックススロー — エネルギッシュなチーム対戦</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="comedy_show"><span class="option-label"><span class="en">🎭 Comedy / Live Performance — evening show at a CBD venue (stand-up, theatre, or improv)</span><span class="ja">🎭 コメディ・ライブパフォーマンス — CBD内のイブニングショー（スタンドアップ、演劇、インプロなど）</span></span></label>
+      <label class="option-row"><input type="checkbox" name="activity" value="mini_golf"><span class="option-label"><span class="en">⛳ Indoor Mini Golf or Bowling — relaxed, inclusive activity for all fitness levels</span><span class="ja">⛳ インドアミニゴルフまたはボーリング — 体力レベルを問わないリラックスしたアクティビティ</span></span></label>
+      <label class="option-row">
+        <input type="checkbox" name="activity" value="other" id="activity-other-cb" onchange="toggleOther('activity-other-text',this)">
+        <span class="option-label">
+          <span class="en">Other idea (please describe)</span><span class="ja">その他のアイデア（具体的に記入してください）</span>
+          <input class="other-input" id="activity-other-text" type="text" disabled placeholder="Describe your idea…" style="display:none">
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Q12 Timing preference -->
+  <div class="question-card">
+    <span class="question-label en">When would you prefer the team activity to be scheduled? <span class="req">*</span></span>
+    <span class="question-label ja">チームアクティビティはいつ実施するのが望ましいですか？<span class="req">*</span></span>
+    <div class="options-group">
+      <label class="option-row"><input type="radio" name="activity_timing" value="day1_evening"><span class="option-label"><span class="en">Day 1 evening (Tuesday 24 June) — kick off the offsite with a social activity</span><span class="ja">1日目の夜（6月24日火曜日）— オフサイトのスタートをソーシャルアクティビティで</span></span></label>
+      <label class="option-row"><input type="radio" name="activity_timing" value="day2_afternoon"><span class="option-label"><span class="en">Day 2 afternoon / evening (Wednesday 25 June) — mid-offsite break and celebration</span><span class="ja">2日目の午後/夜（6月25日水曜日）— オフサイト中盤の休憩と交流</span></span></label>
+      <label class="option-row"><input type="radio" name="activity_timing" value="day3_afternoon"><span class="option-label"><span class="en">Day 3 afternoon (Thursday 26 June) — close the offsite on a high note</span><span class="ja">3日目の午後（6月26日木曜日）— 有終の美を飾るクロージング</span></span></label>
+      <label class="option-row"><input type="radio" name="activity_timing" value="no_preference"><span class="option-label"><span class="en">No preference — happy with whatever works best for the group</span><span class="ja">特に希望なし — グループに合う時間帯であれば何でも</span></span></label>
+    </div>
+  </div>
+
+  <!-- Q13 Dietary / accessibility -->
+  <div class="question-card">
+    <label class="question-label en" for="q-dietary">Any dietary requirements, mobility considerations, or accessibility needs?</label>
+    <label class="question-label ja" for="q-dietary">食事制限、行動上の配慮、その他のアクセシビリティニーズはありますか？</label>
+    <textarea class="textarea-input" id="q-dietary" name="dietary" placeholder="e.g. vegetarian, shellfish allergy, mobility assistance needed…"></textarea>
+  </div>
+
+  <!-- ════════════ SECTION 5: LOGISTICS ════════════ -->
+  <div class="section-header">
+    <h2 class="en">Section 5 — Final Thoughts</h2>
+    <h2 class="ja">セクション5 — 最後に</h2>
+  </div>
+
+  <!-- Q15 Success definition -->
+  <div class="question-card">
+    <label class="question-label en" for="q-outcome">Complete this sentence: <em>"I will consider this offsite a success if we leave Melbourne having…"</em></label>
+    <label class="question-label ja" for="q-outcome">次の文章を完成させてください：<em>「メルボルンを離れるとき、〇〇していれば、このオフサイトは成功だと思う」</em></label>
+    <textarea class="textarea-input" id="q-outcome" name="success_outcome" placeholder="…agreed on a clear H2 2026 APAC strategy / …resolved the 3PSO ownership question / …"></textarea>
+  </div>
+
+  <!-- Q16 Anything else -->
+  <div class="question-card">
+    <label class="question-label en" for="q-else">Anything else you'd like Ramon to know?</label>
+    <label class="question-label ja" for="q-else">Ramonに伝えたいことはありますか？</label>
+    <textarea class="textarea-input" id="q-else" name="anything_else" placeholder="Open feedback, concerns, or suggestions…"></textarea>
+  </div>
+
+  <!-- ── Submit ── -->
+  <div class="question-card" style="background:#faf7ff;">
+    <div class="submit-area">
+      <button class="submit-btn" id="submit-btn" type="button" onclick="submitForm()">
+        <span class="spinner" id="submit-spinner"></span>
+        <span id="submit-label-en" class="en">Submit →</span>
+        <span id="submit-label-ja" class="ja">送信する →</span>
+      </button>
+      <button class="clear-btn" type="button" onclick="clearForm()">
+        <span class="en">Clear form</span>
+        <span class="ja">フォームをリセット</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Banners -->
+  <div class="banner" id="confirm-banner">
+    <span class="en">✅ Thank you for your response! We'll use your input to shape the APAC Offsite agenda. See you in Melbourne on 24 June 2026. 🇦🇺</span>
+    <span class="ja">✅ ご回答ありがとうございます！いただいたご意見をAPACオフサイトのアジェンダに反映します。2026年6月24日、メルボルンでお会いしましょう。🇦🇺</span>
+  </div>
+  <div class="banner" id="error-banner">
+    <span class="en">⚠️ Your response could not be saved. Please check your connection or contact <a href="mailto:ramone@squareup.com" style="color:#c5221f;">ramone@squareup.com</a>.</span>
+    <span class="ja">⚠️ 回答を保存できませんでした。接続を確認するか、<a href="mailto:ramone@squareup.com" style="color:#c5221f;">ramone@squareup.com</a> までご連絡ください。</span>
+  </div>
+
+  <div class="form-footer">
+    <span class="en">Square Partnerships APAC · Confidential · Questions? <a href="mailto:ramone@squareup.com" style="color:#7248b9;">ramone@squareup.com</a></span>
+    <span class="ja">Square Partnerships APAC · 社外秘 · ご質問は <a href="mailto:ramone@squareup.com" style="color:#7248b9;">ramone@squareup.com</a> まで</span>
+  </div>
+
+</div><!-- /form-container -->
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CONFIGURATION
+// After deploying the Apps Script (see setup instructions in Drive),
+// replace the placeholder below with your actual web app URL.
+// ══════════════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/a/macros/squareup.com/s/AKfycbztjZW2xW6bbKT8C8F69LR4QfJ2IFt2G74Hj2ndN848HToS06G3JwBA6I0zu2wehq1YTg/exec';
+
+// ── Show setup notice if URL not yet configured ────────────────
+window.addEventListener('load', () => {
+  if (!SCRIPT_URL || SCRIPT_URL.includes('PASTE')) {
+    document.getElementById('setup-notice').style.display = 'block';
+  }
+});
+
+// ── Topic options for ranking dropdowns ───────────────────────
+const TOPIC_OPTIONS = [
+  { value: 'apac_strategy',        en: 'APAC Partnership Strategy',            ja: 'APACパートナーシップ戦略' },
+  { value: 'jp_strategy',          en: 'Japan Deep Dive',                      ja: '日本の詳細検討' },
+  { value: '3pso',                 en: '3PSO / Third-Party Sales Org Strategy', ja: '3PSO戦略' },
+  { value: 'partner_integrations', en: 'Partner Integration & Product Roadmap', ja: 'パートナー統合・プロダクトロードマップ' },
+  { value: 'kpi_performance',      en: 'KPI Framework & Performance Review',    ja: 'KPIフレームワーク・パフォーマンスレビュー' },
+  { value: 'xregion_collab',       en: 'Cross-Regional Collaboration',          ja: '地域間コラボレーション' },
+  { value: 'gtm_playbook',         en: 'Go-to-Market Playbook',                 ja: 'GTMプレイブック' },
+  { value: 'new_verticals',        en: 'New Verticals & Emerging Opportunities', ja: '新分野・新興機会' },
+  { value: 'leadership_dev',       en: 'Leadership & Team Development',          ja: 'リーダーシップ・チーム開発' }
+];
+
+function populateTopicDropdowns(lang) {
+  ['top_topic_1', 'top_topic_2', 'top_topic_3'].forEach(id => {
+    const sel = document.getElementById(id);
+    const current = sel.value;
+    sel.innerHTML = `<option value="">— ${lang === 'ja' ? '選択' : 'Select'} —</option>`;
+    TOPIC_OPTIONS.forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt.value;
+      o.textContent = opt[lang];
+      if (o.value === current) o.selected = true;
+      sel.appendChild(o);
+    });
+  });
+}
+
+// ── Language toggle ────────────────────────────────────────────
+function setLang(lang) {
+  document.body.classList.remove('lang-en', 'lang-ja');
+  document.body.classList.add('lang-' + lang);
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.documentElement.setAttribute('lang', lang === 'ja' ? 'ja' : 'en');
+  populateTopicDropdowns(lang);
+}
+
+// Populate dropdowns on load
+document.addEventListener('DOMContentLoaded', () => populateTopicDropdowns('en'));
+
+// ── "Other" field reveal ───────────────────────────────────────
+function toggleOther(inputId, cb) {
+  const input = document.getElementById(inputId);
+  if (cb.checked) {
+    input.style.display = 'block';
+    input.disabled = false;
+    input.focus();
+  } else {
+    input.style.display = 'none';
+    input.disabled = true;
+    input.value = '';
+  }
+}
+
+// ── Cap activity selections at 3 ──────────────────────────────
+document.querySelectorAll('input[name="activity"]').forEach(cb => {
+  cb.addEventListener('change', function () {
+    const checked = document.querySelectorAll('input[name="activity"]:checked');
+    if (checked.length > 3) {
+      this.checked = false;
+      const row = this.closest('.option-row');
+      row.style.transition = 'opacity 0.15s';
+      row.style.opacity = '0.4';
+      setTimeout(() => { row.style.opacity = '1'; }, 500);
+    }
+  });
+});
+
+// ── Collect all form data ──────────────────────────────────────
+function collectFormData() {
+  const get = name => document.querySelector(`[name="${name}"]`)?.value?.trim() || '';
+  const getRadio = name => {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  };
+  const getCheckboxes = name =>
+    Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+
+  // Append "other" text values if checked
+  const topicsOther = document.getElementById('topic-other-cb')?.checked
+    ? document.getElementById('topic-other-text')?.value?.trim() : null;
+  const attendeesOther = document.getElementById('attendee-other-cb')?.checked
+    ? document.getElementById('attendee-other-text')?.value?.trim() : null;
+  const activityOther = document.getElementById('activity-other-cb')?.checked
+    ? document.getElementById('activity-other-text')?.value?.trim() : null;
+
+  const topics    = getCheckboxes('topics');
+  const attendees = getCheckboxes('attendees');
+  const activity  = getCheckboxes('activity');
+
+  return {
+    full_name:          get('full_name'),
+    region:             get('region') || document.querySelector('select[name="region"]')?.value || '',
+    role:               get('role'),
+    topics:             topics,
+    topic_other_text:   topicsOther || '',
+    top_topic_1:        get('top_topic_1') || document.querySelector('[name="top_topic_1"]')?.value || '',
+    top_topic_2:        get('top_topic_2') || document.querySelector('[name="top_topic_2"]')?.value || '',
+    top_topic_3:        get('top_topic_3') || document.querySelector('[name="top_topic_3"]')?.value || '',
+    prework_format:     getRadio('prework_format'),
+    topic_freetext:     document.getElementById('q-topic-freetext')?.value?.trim() || '',
+    attendees:          attendees,
+    attendee_other_text: attendeesOther || '',
+    jp_attendees:       document.getElementById('q-jp-attendees')?.value?.trim() || '',
+    attendee_rationale: document.getElementById('q-rationale')?.value?.trim() || '',
+    activity:           activity,
+    activity_other_text: activityOther || '',
+    activity_timing:    getRadio('activity_timing'),
+    dietary:            document.getElementById('q-dietary')?.value?.trim() || '',
+    accommodation:      getRadio('accommodation'),
+    success_outcome:    document.getElementById('q-outcome')?.value?.trim() || '',
+    anything_else:      document.getElementById('q-else')?.value?.trim() || ''
+  };
+}
+
+// ── Validate required fields ───────────────────────────────────
+function validate(data) {
+  const isEn = document.body.classList.contains('lang-en');
+  const msgs = {
+    full_name:       isEn ? 'Please enter your full name.'             : '氏名を入力してください。',
+    region:          isEn ? 'Please select your team / region.'        : 'チーム・地域を選択してください。',
+    topics:          isEn ? 'Please select at least one topic.'        : '少なくとも1つのトピックを選択してください。',
+    attendees:       isEn ? 'Please select at least one attendee.'     : '少なくとも1名の招待候補者を選択してください。',
+    activity:        isEn ? 'Please select at least one activity.'     : '少なくとも1つのアクティビティを選択してください。',
+    activity_timing: isEn ? 'Please select an activity timing.'        : 'アクティビティの日時を選択してください。',
+    accommodation:   isEn ? 'Please answer the accommodation question.' : '宿泊に関する質問に回答してください。'
+  };
+  if (!data.full_name)           { alert(msgs.full_name);       return false; }
+  if (!data.region)              { alert(msgs.region);          return false; }
+  if (!data.topics.length)       { alert(msgs.topics);          return false; }
+  if (!data.attendees.length)    { alert(msgs.attendees);       return false; }
+  if (!data.activity.length)     { alert(msgs.activity);        return false; }
+  if (!data.activity_timing)     { alert(msgs.activity_timing); return false; }
+  if (!data.accommodation)       { alert(msgs.accommodation);   return false; }
+  return true;
+}
+
+// ── Submit ─────────────────────────────────────────────────────
+async function submitForm() {
+  const data = collectFormData();
+  if (!validate(data)) return;
+
+  // UI: loading state
+  const btn = document.getElementById('submit-btn');
+  const spinner = document.getElementById('submit-spinner');
+  btn.disabled = true;
+  spinner.style.display = 'inline-block';
+
+  // Hide any previous banners
+  document.getElementById('confirm-banner').style.display = 'none';
+  document.getElementById('error-banner').style.display = 'none';
+
+  // If SCRIPT_URL is not set, show confirmation locally and warn
+  if (!SCRIPT_URL || SCRIPT_URL.includes('PASTE')) {
+    await new Promise(r => setTimeout(r, 600));
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    showConfirm();
+    console.warn('APAC Survey: No SCRIPT_URL set — response not saved to Google Sheets.');
+    return;
+  }
+
+  try {
+    const resp = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // required for Apps Script web apps
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    // no-cors means we can't read the response body — assume success if no network error
+    showConfirm();
+  } catch (err) {
+    document.getElementById('error-banner').style.display = 'block';
+    document.getElementById('error-banner').scrollIntoView({ behavior: 'smooth' });
+    console.error('Submission error:', err);
+  } finally {
+    btn.disabled = false;
+    spinner.style.display = 'none';
+  }
+}
+
+function showConfirm() {
+  const banner = document.getElementById('confirm-banner');
+  banner.style.display = 'block';
+  banner.scrollIntoView({ behavior: 'smooth' });
+  // Fade out the form
+  document.querySelector('.form-container').style.transition = 'opacity 0.4s';
+  document.querySelector('.form-container').style.opacity = '0.35';
+  document.querySelector('.form-container').style.pointerEvents = 'none';
+}
+
+// ── Clear ──────────────────────────────────────────────────────
+function clearForm() {
+  const isEn = document.body.classList.contains('lang-en');
+  const msg = isEn ? 'Clear all responses?' : 'すべての回答をリセットしますか？';
+  if (!confirm(msg)) return;
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => el.checked = false);
+  ['topic-other-text','attendee-other-text','activity-other-text'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.display = 'none'; el.disabled = true; }
+  });
+  document.getElementById('confirm-banner').style.display = 'none';
+  document.getElementById('error-banner').style.display = 'none';
+  document.querySelector('.form-container').style.opacity = '1';
+  document.querySelector('.form-container').style.pointerEvents = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
